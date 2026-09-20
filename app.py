@@ -1,22 +1,22 @@
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
-students = []
 
 @app.route("/", methods=["GET","POST"])
 def login():
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        role = request.form["role"]
+        u = request.form["username"]
+        p = request.form["password"]
+        r = request.form["role"]
 
-        if username=="admin" and password=="123" and role=="Admin":
-            return render_template("admin.html", user=username)
+        if u=="admin" and p=="123" and r=="Admin":
+            return render_template("admin.html", user=u)
 
     return render_template("login.html")
 
-@app.route("/student", methods=["GET","POST"])
+@app.route("/student")
 def student():
-    return render_template("student.html", students=students)
+    return render_template("student.html")
 
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
