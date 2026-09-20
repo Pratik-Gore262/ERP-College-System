@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+students = []
 
 @app.route("/", methods=["GET","POST"])
 def login():
@@ -9,11 +10,13 @@ def login():
         password = request.form["password"]
         role = request.form["role"]
 
-        if username == "admin" and password == "123":
-            return f"Welcome {role}"
-        return "Invalid Login"
+        if username=="admin" and password=="123" and role=="Admin":
+            return render_template("admin.html", user=username)
 
     return render_template("login.html")
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route("/student", methods=["GET","POST"])
+def student():
+    return render_template("student.html", students=students)
+
+app.run(debug=True)
