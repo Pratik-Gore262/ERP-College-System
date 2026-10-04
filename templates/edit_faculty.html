@@ -1,0 +1,126 @@
+cat > templates/edit_faculty.html <<'EOF'
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Edit Faculty - College ERP</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #dcfce7,
+            #fce7f3
+        );
+}
+
+.container {
+
+    max-width: 600px;
+
+    margin: 70px auto;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,0.12);
+}
+
+h1 {
+    color: #073b66;
+}
+
+input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 8px 0 15px;
+
+    border:
+        1px solid #ddd;
+
+    border-radius: 7px;
+}
+
+button {
+
+    background: #10b981;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 25px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+a {
+    margin-left: 15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✏️ Edit Faculty</h1>
+
+<form method="POST">
+
+<input
+    type="text"
+    name="name"
+    value="{{ faculty['name'] }}"
+    required
+>
+
+<input
+    type="text"
+    name="department"
+    value="{{ faculty['department'] }}"
+    required
+>
+
+<input
+    type="email"
+    name="email"
+    value="{{ faculty['email'] }}"
+    required
+>
+
+<button type="submit">
+    Update Faculty
+</button>
+
+<a href="/faculty">
+    Cancel
+</a>
+
+</form>
+
+</div>
+
+</body>
+
+</html>
+EOF
