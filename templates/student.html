@@ -1,15 +1,737 @@
+cat > templates/student.html <<'EOF'
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Student Management</title>
-</head>
-<body>
-    <h2>Student Management</h2>
+<html lang="en">
 
-    <form>
-        <input type="text" placeholder="Student Name"><br><br>
-        <input type="text" placeholder="PRN Number"><br><br>
-        <button>Add Student</button>
-    </form>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Manage Students - College ERP</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+
+    background:
+        radial-gradient(
+            circle at top left,
+            #bfdbfe,
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            #f5d0fe,
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #faf5ff
+        );
+
+    min-height: 100vh;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+
+    height: 65px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #073b66,
+            #1261a0
+        );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 25px;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.2);
+}
+
+
+.logo {
+
+    font-size: 21px;
+
+    font-weight: bold;
+}
+
+
+.user {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.logout {
+
+    background: #ef4444;
+
+    border: none;
+
+    color: white;
+
+    padding: 9px 15px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+
+/* LAYOUT */
+
+.layout {
+
+    display: flex;
+
+    min-height:
+        calc(100vh - 65px);
+}
+
+
+/* SIDEBAR */
+
+.sidebar {
+
+    width: 230px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #073b66,
+            #0b2945,
+            #064e3b
+        );
+
+    color: white;
+
+    padding-top: 20px;
+}
+
+
+.sidebar h3 {
+
+    padding:
+        15px 20px 20px;
+}
+
+
+.sidebar a {
+
+    display: block;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 14px 20px;
+
+    transition: 0.2s;
+}
+
+
+.sidebar a:hover,
+.sidebar .active {
+
+    background: #1479e9;
+}
+
+
+/* CONTENT */
+
+.content {
+
+    flex: 1;
+
+    padding: 30px;
+}
+
+
+.content h1 {
+
+    color: #172033;
+
+    margin-bottom: 25px;
+}
+
+
+/* CARDS */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+}
+
+
+.card {
+
+    color: white;
+
+    padding: 22px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 7px 20px
+        rgba(0,0,0,0.12);
+}
+
+
+.card.blue {
+
+    background:
+        linear-gradient(
+            135deg,
+            #087ff5,
+            #2563eb
+        );
+}
+
+
+.card.green {
+
+    background:
+        linear-gradient(
+            135deg,
+            #10b981,
+            #059669
+        );
+}
+
+
+.card.orange {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f59e0b,
+            #ea580c
+        );
+}
+
+
+.card h2 {
+
+    font-size: 32px;
+
+    margin-bottom: 7px;
+}
+
+
+/* PANEL */
+
+.panel {
+
+    background:
+        rgba(255,255,255,0.92);
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 7px 25px
+        rgba(0,0,0,0.10);
+
+    margin-bottom: 25px;
+}
+
+
+.panel h2 {
+
+    color: #172033;
+
+    margin-bottom: 20px;
+}
+
+
+/* FORM */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+}
+
+
+input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    outline: none;
+}
+
+
+input:focus {
+
+    border-color: #1479e9;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(20,121,233,0.12);
+}
+
+
+.add-btn {
+
+    background:
+        linear-gradient(
+            90deg,
+            #087ff5,
+            #2563eb
+        );
+
+    color: white;
+
+    border: none;
+
+    padding: 12px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+
+/* TABLE */
+
+.table-container {
+
+    overflow-x: auto;
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+th {
+
+    background: #073b66;
+
+    color: white;
+
+    padding: 13px;
+
+    text-align: left;
+}
+
+
+td {
+
+    padding: 12px;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+
+tr:hover {
+
+    background: #eff6ff;
+}
+
+
+/* BUTTONS */
+
+.edit {
+
+    background: #1479e9;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 7px 11px;
+
+    border-radius: 5px;
+
+    margin-right: 5px;
+}
+
+
+.delete {
+
+    background: #ef4444;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 7px 11px;
+
+    border-radius: 5px;
+}
+
+
+/* MOBILE */
+
+@media(max-width: 900px) {
+
+    .sidebar {
+
+        width: 190px;
+    }
+
+    .cards {
+
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        🎓 College ERP System
+    </div>
+
+    <div class="user">
+
+        👤 Welcome,
+        {{ username }}
+
+        <button
+            class="logout"
+            onclick="window.location.href='/'">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="layout">
+
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <h3>
+        ⚙️ Admin Panel
+    </h3>
+
+    <a href="/"
+       class="active">
+
+        🏠 Dashboard
+
+    </a>
+
+    <a href="/student">
+
+        👨‍🎓 Manage Students
+
+    </a>
+
+    <a href="/faculty">
+
+        👨‍🏫 Manage Faculty
+
+    </a>
+
+    <a href="#">
+
+        📚 Manage Courses
+
+    </a>
+
+    <a href="#">
+
+        👥 View Users
+
+    </a>
+
+    <a href="#">
+
+        👤 Profile
+
+    </a>
+
+    <a href="/">
+
+        🚪 Logout
+
+    </a>
+
+</div>
+
+
+<!-- CONTENT -->
+
+<div class="content">
+
+    <h1>
+        Manage Students
+    </h1>
+
+
+    <!-- CARDS -->
+
+    <div class="cards">
+
+        <div class="card blue">
+
+            <h2>
+                {{ total_students }}
+            </h2>
+
+            <p>
+                Total Students
+            </p>
+
+        </div>
+
+
+        <div class="card green">
+
+            <h2>
+                5
+            </h2>
+
+            <p>
+                Faculty
+            </p>
+
+        </div>
+
+
+        <div class="card orange">
+
+            <h2>
+                4
+            </h2>
+
+            <p>
+                Courses
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD STUDENT -->
+
+    <div class="panel">
+
+        <h2>
+            ➕ Add Student
+        </h2>
+
+        <form
+            method="POST"
+            class="form-grid">
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Student Name"
+                required
+            >
+
+            <input
+                type="text"
+                name="roll_no"
+                placeholder="Roll Number"
+                required
+            >
+
+            <input
+                type="text"
+                name="course"
+                placeholder="Course"
+                required
+            >
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+            >
+
+            <button
+                type="submit"
+                class="add-btn">
+
+                Save Student
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- STUDENT LIST -->
+
+    <div class="panel">
+
+        <h2>
+            👨‍🎓 Student List
+        </h2>
+
+        <div class="table-container">
+
+        <table>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Name</th>
+
+                <th>Roll No</th>
+
+                <th>Course</th>
+
+                <th>Email</th>
+
+                <th>Action</th>
+
+            </tr>
+
+
+            {% for s in students %}
+
+            <tr>
+
+                <td>
+                    {{ s["id"] }}
+                </td>
+
+                <td>
+                    {{ s["name"] }}
+                </td>
+
+                <td>
+                    {{ s["roll_no"] }}
+                </td>
+
+                <td>
+                    {{ s["course"] }}
+                </td>
+
+                <td>
+                    {{ s["email"] }}
+                </td>
+
+                <td>
+
+                    <a
+                        class="edit"
+                        href="/student/edit/{{ s['id'] }}">
+
+                        Edit
+
+                    </a>
+
+                    <a
+                        class="delete"
+                        href="/student/delete/{{ s['id'] }}">
+
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    style="text-align:center">
+
+                    No students found.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
 </body>
+
 </html>
+EOF
