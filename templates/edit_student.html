@@ -1,0 +1,112 @@
+cat > templates/edit_student.html <<'EOF'
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Edit Student - College ERP</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #fce7f3,
+            #dcfce7
+        );
+}
+
+.container {
+    max-width: 600px;
+    margin: 70px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+h1 {
+    color: #073b66;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+}
+
+button {
+    background: #1479e9;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+a {
+    margin-left: 15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✏️ Edit Student</h1>
+
+<form method="POST">
+
+<input
+    type="text"
+    name="name"
+    value="{{ student['name'] }}"
+    required
+>
+
+<input
+    type="text"
+    name="roll_no"
+    value="{{ student['roll_no'] }}"
+    required
+>
+
+<input
+    type="text"
+    name="course"
+    value="{{ student['course'] }}"
+    required
+>
+
+<input
+    type="email"
+    name="email"
+    value="{{ student['email'] }}"
+    required
+>
+
+<button type="submit">
+    Update Student
+</button>
+
+<a href="/student">
+    Cancel
+</a>
+
+</form>
+
+</div>
+
+</body>
+
+</html>
+EOF
