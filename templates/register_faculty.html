@@ -1,0 +1,50 @@
+cat > templates/register_faculty.html <<'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Faculty | College ERP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main class="form-card">
+    <h1>👨‍🏫 Add Faculty</h1>
+    <p class="muted">Create a faculty account</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('register_faculty') }}">
+        <label>Full Name</label>
+        <input name="full_name" type="text" required>
+
+        <label>Username</label>
+        <input name="username" type="text" required>
+
+        <label>Department</label>
+        <input name="department" type="text" required>
+
+        <label>Email</label>
+        <input name="email" type="email" required>
+
+        <label>Password</label>
+        <input name="password" type="password" minlength="8" required>
+        <p class="muted">Use uppercase, lowercase, number and special symbol.</p>
+
+        <label>Confirm Password</label>
+        <input name="confirm_password" type="password" minlength="8" required>
+
+        <button class="btn" type="submit">Create Faculty</button>
+    </form>
+
+    <p class="center"><a href="{{ url_for('admin_dashboard') }}">Back to Admin Dashboard</a></p>
+</main>
+</body>
+</html>
+HTML
