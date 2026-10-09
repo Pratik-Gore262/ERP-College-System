@@ -1,14 +1,67 @@
-<h2>Register</h2>
-<form method="POST">
-  <input name="username" placeholder="Name"><br><br>
-  <input type="password" name="password" placeholder="Password"><br><br>
+cat > templates/register.html <<'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Registration | College ERP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main class="form-card">
+    <h1>Student Registration</h1>
+    <p class="muted">Create your student account</p>
 
-  <select name="role">
-    <option value="student">Student</option>
-    <option value="faculty">Faculty</option>
-    <option value="admin">Admin</option>
-  </select><br><br>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-  <button>Save</button>
-</form>
+    <form method="POST" action="{{ url_for('register') }}">
+        <label>Full Name</label>
+        <input name="full_name" type="text" required>
+
+        <label>Username</label>
+        <input name="username" type="text" required>
+
+        <label>Roll Number</label>
+        <input name="roll_no" type="text" required>
+
+        <label>Course / Class</label>
+        <input name="course" type="text" placeholder="B.Sc. Cloud Computing" required>
+
+        <label>Semester</label>
+        <select name="semester" required>
+            <option value="">Select semester</option>
+            <option>Semester I</option>
+            <option>Semester II</option>
+            <option>Semester III</option>
+            <option>Semester IV</option>
+            <option>Semester V</option>
+            <option>Semester VI</option>
+        </select>
+
+        <label>Email</label>
+        <input name="email" type="email" required>
+
+        <label>Phone</label>
+        <input name="phone" type="tel" required>
+
+        <label>Password</label>
+        <input name="password" type="password" minlength="8" required>
+
+        <label>Confirm Password</label>
+        <input name="confirm_password" type="password" minlength="8" required>
+
+        <button class="btn" type="submit">Create Student Account</button>
+    </form>
+
+    <p class="center"><a href="{{ url_for('login') }}">Back to Login</a></p>
+</main>
+</body>
+</html>
+HTML
 
