@@ -1,0 +1,84 @@
+cat > templates/faculty_dashboard.html <<'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Faculty Dashboard | College ERP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <strong>🎓 College ERP</strong>
+    <div>Faculty Portal <a class="logout" href="{{ url_for('logout') }}">Logout</a></div>
+</header>
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <h3>Faculty Menu</h3>
+        <a href="#profile">My Profile</a>
+        <a href="#students">Students</a>
+        <a href="#subjects">Subjects</a>
+    </aside>
+
+    <main class="content">
+        <h1>Welcome, {{ faculty["full_name"] }} 👋</h1>
+        <p class="muted">Faculty dashboard</p>
+
+        <section id="profile" class="panel">
+            <h2>My Profile</h2>
+            <p><b>Name:</b> {{ faculty["full_name"] }}</p>
+            <p><b>Department:</b> {{ faculty["department"] }}</p>
+            <p><b>Email:</b> {{ faculty["email"] }}</p>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card"><span>Total Students</span><h2>{{ students|length }}</h2></div>
+            <div class="stat-card"><span>Total Subjects</span><h2>{{ subjects|length }}</h2></div>
+        </section>
+
+        <section id="students" class="panel">
+            <h2>Student List</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Roll Number</th><th>Name</th><th>Course</th><th>Semester</th></tr></thead>
+                    <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ student["roll_no"] }}</td>
+                            <td>{{ student["full_name"] }}</td>
+                            <td>{{ student["course"] }}</td>
+                            <td>{{ student["semester"] }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="4">No students registered.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="subjects" class="panel">
+            <h2>Subjects</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Code</th><th>Subject</th><th>Semester</th></tr></thead>
+                    <tbody>
+                    {% for subject in subjects %}
+                        <tr>
+                            <td>{{ subject["code"] }}</td>
+                            <td>{{ subject["name"] }}</td>
+                            <td>{{ subject["semester"] }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="3">No subjects available.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
+HTML
