@@ -1,23 +1,54 @@
-x<!DOCTYPE html>
-<html>
+cat > templates/login.html <<'HTML'
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>College ERP Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | College ERP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <h2>College ERP Login</h2>
+<div class="auth-layout">
+    <section class="welcome-panel">
+        <h1>College ERP System</h1>
+        <p>One platform for students, faculty and administration.</p>
+    </section>
 
-  <form method="POST" action="/">
-    <input type="text" name="username" placeholder="Username" required><br><br>
+    <main class="auth-card">
+        <h1>Welcome Back 👋</h1>
+        <p class="muted">Login to your ERP account</p>
 
-    <input type="password" name="password" placeholder="Password" required><br><br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
 
-    <select name="role">
-      <option value="Admin">Admin</option>
-      <option value="Faculty">Faculty</option>
-      <option value="Student">Student</option>
-    </select><br><br>
+        <form method="POST" action="{{ url_for('login') }}">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter username" required>
 
-    <button type="submit">Login</button>
-  </form>
+            <label>Password</label>
+            <input type="password" name="password" id="password" placeholder="Enter password" required>
+
+            <label>Login As</label>
+            <select name="role" required>
+                <option value="">Select your role</option>
+                <option value="student">Student</option>
+                <option value="faculty">Faculty</option>
+                <option value="admin">Admin</option>
+            </select>
+
+            <button class="btn" type="submit">Login to ERP</button>
+        </form>
+
+        <p class="center">New Student?
+            <a href="{{ url_for('register') }}">Create Account</a>
+        </p>
+    </main>
+</div>
 </body>
 </html>
+HTML
